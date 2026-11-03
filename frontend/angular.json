@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "hello-world": {
+    "receitasmedicas": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "hello-world:build:production"
+              "buildTarget": "receitasmedicas:build:production"
             },
             "development": {
-              "buildTarget": "hello-world:build:development"
+              "buildTarget": "receitasmedicas:build:development"
             }
           },
           "defaultConfiguration": "development"
