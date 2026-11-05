@@ -1,8 +1,21 @@
-# SysProtect – Prevenção e Detecção de Fraudes
+# SysProtectReceitasMedicas – Prevenção e Detecção de Fraudes
 
-O **SysProtect** é um projeto voltado à prevenção e detecção de fraudes em receitas médicas controladas, abrangendo documentos físicos e digitais, com foco especial nas receitas físicas dos tipos **branca, amarela e azul**.
+O **SysProtectReceitasMedicas** é um projeto voltado à prevenção e detecção de fraudes em receitas médicas controladas, abrangendo documentos físicos e digitais, com foco especial nas receitas físicas dos tipos **branca, amarela e azul**.
 
 A solução tem como objetivo identificar possíveis irregularidades, inconsistências e indícios de falsificação, aumentando a segurança, a confiabilidade e a integridade do processo de validação desses documentos.
+
+---
+
+## Informações do Projeto
+
+| Informação | Valor |
+|---|---|
+| Nome do projeto | `SysProtectReceitasMedicas` |
+| Package principal | `com.sysprotect.receitasmedicas` |
+| Backend | Java 25 + Spring Boot |
+| Frontend | Angular 22 |
+| Banco de dados | PostgreSQL |
+| API | REST |
 
 ---
 
@@ -60,7 +73,7 @@ O sistema será desenvolvido utilizando uma arquitetura **Full Stack**, com tecn
 
 ## Arquitetura da Aplicação
 
-A arquitetura do SysProtect será organizada em camadas:
+A arquitetura do **SysProtectReceitasMedicas** será organizada em camadas:
 
 | Camada | Responsabilidade | Tecnologia |
 |---|---|---|
@@ -78,7 +91,7 @@ A arquitetura do SysProtect será organizada em camadas:
 
 ## Inteligência Artificial e Prevenção de Fraudes
 
-O **SysProtect** contará com integração de inteligência artificial por meio do **Spring AI** e **Google Gemini**, permitindo analisar documentos e identificar possíveis características suspeitas.
+O **SysProtectReceitasMedicas** contará com integração de inteligência artificial por meio do **Spring AI** e **Google Gemini**, permitindo analisar documentos e identificar possíveis características suspeitas.
 
 ### Funcionalidades previstas
 
@@ -174,9 +187,9 @@ A infraestrutura será organizada utilizando **Docker** e **Docker Compose**, fa
 
 | Container | Responsabilidade |
 |---|---|
-| `sysprotect-api` | API REST desenvolvida com Spring Boot |
-| `sysprotect-frontend` | Aplicação Angular |
-| `sysprotect-db` | Banco de dados PostgreSQL |
+| `sysprotect-receitas-medicas-api` | API REST desenvolvida com Spring Boot |
+| `sysprotect-receitas-medicas-frontend` | Aplicação Angular |
+| `sysprotect-receitas-medicas-db` | Banco de dados PostgreSQL |
 
 ### Serviços
 
@@ -311,6 +324,6 @@ O projeto combinará:
 
 ## Objetivo Final
 
-O **SysProtect** tem como objetivo fornecer uma plataforma tecnológica para **prevenção, detecção e análise de possíveis fraudes em receitas médicas controladas**, utilizando uma combinação de:
+O **SysProtectReceitasMedicas** tem como objetivo fornecer uma plataforma tecnológica para **prevenção, detecção e análise de possíveis fraudes em receitas médicas controladas**, utilizando uma combinação de:
 
 **Java + Spring Boot + Angular + PostgreSQL + Flyway + Spring Security + JWT + 2FA + Docker + Spring AI + Google Gemini.**
