@@ -28,17 +28,9 @@ jobs:
           java-version: '25'
           cache: maven
 
-      - name: Run Maven Tests
+      - name: Build, Test and Verify JaCoCo Coverage
         working-directory: backend
-        run: mvn -B clean test
-
-      - name: Verify JaCoCo Coverage (Minimum 80%)
-        working-directory: backend
-        run: mvn -B jacoco:check
-
-      - name: Generate JaCoCo Report
-        working-directory: backend
-        run: mvn -B jacoco:report
+        run: mvn -B clean verify
 
       - name: Upload JaCoCo Report
         if: always()
