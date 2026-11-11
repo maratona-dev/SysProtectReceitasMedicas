@@ -1,3 +1,5 @@
+[![Docker Publish](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml)
+
 # SysProtectReceitasMedicas – Prevenção e Detecção de Fraudes
 
 O **SysProtectReceitasMedicas** é um projeto voltado à prevenção e detecção de fraudes em receitas médicas controladas, abrangendo documentos físicos e digitais, com foco especial nas receitas físicas dos tipos **branca, amarela e azul**.
