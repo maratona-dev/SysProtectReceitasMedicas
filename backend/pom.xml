@@ -18,7 +18,11 @@
     <packaging>jar</packaging>
 
     <name>SysProtect Receitas Médicas</name>
-    <description>API RESTful para prevenção de fraudes em receitas médicas utilizando Spring Boot, Spring Security, JWT e PostgreSQL.</description>
+
+    <description>
+        API RESTful para prevenção de fraudes em receitas médicas
+        utilizando Spring Boot, Spring Security, JWT e PostgreSQL.
+    </description>
 
     <properties>
         <java.version>25</java.version>
@@ -29,7 +33,6 @@
         <jjwt.version>0.13.0</jjwt.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <springdoc.version>3.2.0</springdoc.version>
-
         <jacoco.version>0.8.16</jacoco.version>
     </properties>
 
@@ -180,6 +183,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+
                 <configuration>
                     <release>${java.version}</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
@@ -209,6 +213,7 @@
 
                     <execution>
                         <id>prepare-agent</id>
+
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -217,6 +222,7 @@
                     <execution>
                         <id>generate-report</id>
                         <phase>verify</phase>
+
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -225,13 +231,16 @@
                     <execution>
                         <id>check-coverage</id>
                         <phase>verify</phase>
+
                         <goals>
                             <goal>check</goal>
                         </goals>
+
                         <configuration>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
+
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
