@@ -1,4 +1,25 @@
-[![Docker Publish](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml)
+[![SysProtect CI/CD](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml)
+
+---
+
+## CI/CD – DevOpsSec | Resultado esperado
+
+| Execução | Ambiente | Docker Hub |
+|---|---|---|
+| Pull Request | `dev` | Não publica |
+| Push na `main` | `prd` | Publica |
+
+### Imagens geradas
+
+**Pull Request (Desenvolvimento – dev)**
+
+- `loesterbotelho/sysprotect-backend:v1.0.0-dev`
+- `loesterbotelho/sysprotect-frontend:v1.0.0-dev`
+
+**Push na main (Produção – prd)**
+
+- `loesterbotelho/sysprotect-backend:v1.0.0-prd`
+- `loesterbotelho/sysprotect-frontend:v1.0.0-prd`
 
 ---
 

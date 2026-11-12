@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:17-alpine
@@ -23,7 +22,7 @@ services:
       start_period: 10s
 
   backend:
-    image: ${DOCKERHUB_USERNAME}/sysprotect-backend:v1.0.0
+    image: ${DOCKERHUB_USERNAME}/sysprotect-backend:${DOCKER_IMAGE_TAG}-${DOCKER_IMAGE_ENV}
     container_name: sysprotect-backend
     build:
       context: ./backend
@@ -42,7 +41,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: ${DOCKERHUB_USERNAME}/sysprotect-frontend:v1.0.0
+    image: ${DOCKERHUB_USERNAME}/sysprotect-frontend:${DOCKER_IMAGE_TAG}-${DOCKER_IMAGE_ENV}
     container_name: sysprotect-frontend
     build:
       context: ./frontend
