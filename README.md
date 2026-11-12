@@ -1,5 +1,141 @@
 [![Docker Publish](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/maratona-dev/SysProtectReceitasMedicas/actions/workflows/docker-publish.yml)
 
+---
+
+## Configuração das variáveis de ambiente
+
+Antes de iniciar a aplicação, é necessário criar o arquivo `.env` a partir do arquivo de exemplo `.env.example`.
+
+**1. Copie o arquivo `.env.example` para `.env`:**
+
+```bash
+cp .env.example .env
+```
+
+No Windows (PowerShell), utilize:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+**2. Configure as variáveis de ambiente**
+
+Abra o arquivo `.env` e preencha as variáveis necessárias de acordo com o ambiente de execução.
+
+> **Importante:** Não compartilhe o arquivo `.env` e não o envie para o GitHub, pois ele pode conter senhas, tokens e outras informações sensíveis.
+
+**3. Execute a aplicação com Docker Compose**
+
+Após configurar o arquivo `.env`, execute:
+
+```bash
+docker compose up -d
+```
+
+O Docker Compose utilizará as variáveis definidas no `.env` durante a inicialização dos serviços.
+
+---
+
+# Docker Compose
+
+## Pré-requisitos
+
+Antes de iniciar a aplicação, certifique-se de ter instalado:
+
+- Docker
+- Docker Compose
+
+Verifique as instalações:
+
+```bash
+docker --version
+docker compose version
+```
+
+## Executando a aplicação
+
+Na raiz do projeto, onde está localizado o arquivo `compose.yaml` ou `docker-compose.yml`, execute:
+
+```bash
+docker compose up -d
+```
+
+O parâmetro `-d` executa os containers em segundo plano (*detached mode*).
+
+## Verificando os containers
+
+Para verificar se os containers estão em execução:
+
+```bash
+docker compose ps
+```
+
+Também é possível visualizar os logs:
+
+```bash
+docker compose logs
+```
+
+Para acompanhar os logs em tempo real:
+
+```bash
+docker compose logs -f
+```
+
+## Parando a aplicação
+
+Para parar os containers:
+
+```bash
+docker compose stop
+```
+
+## Removendo os containers
+
+Para parar e remover os containers criados pelo Compose:
+
+```bash
+docker compose down
+```
+
+## Resumo dos comandos
+
+| Comando | Descrição |
+|---|---|
+| `docker compose up -d` | Inicia os containers em segundo plano |
+| `docker compose ps` | Lista os containers |
+| `docker compose logs` | Exibe os logs |
+| `docker compose logs -f` | Acompanha os logs em tempo real |
+| `docker compose stop` | Para os containers |
+| `docker compose down` | Para e remove os containers |
+
+## Fluxo rápido
+
+Para iniciar:
+
+```bash
+docker compose up -d
+```
+
+Verificar:
+
+```bash
+docker compose ps
+```
+
+Para acompanhar os logs:
+
+```bash
+docker compose logs -f
+```
+
+Para finalizar:
+
+```bash
+docker compose down
+```
+---
+
 # SysProtectReceitasMedicas – Prevenção e Detecção de Fraudes
 
 O **SysProtectReceitasMedicas** é um projeto voltado à prevenção e detecção de fraudes em receitas médicas controladas, abrangendo documentos físicos e digitais, com foco especial nas receitas físicas dos tipos **branca, amarela e azul**.
