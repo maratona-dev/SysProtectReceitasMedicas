@@ -3,7 +3,7 @@ package com.sysprotect.receitasmedicas.dto.request;
 import jakarta.validation.constraints.*;
 import java.util.UUID;
 
-public record CondicaoTesteRequest(
+public record CondicaoTesteRequestDto(
         @NotNull(message = "O ID do tipo de fraude é obrigatório")
         UUID tipoFraudeId,
 

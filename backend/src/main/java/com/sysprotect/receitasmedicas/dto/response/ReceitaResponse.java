@@ -16,8 +16,8 @@ public record ReceitaResponse(
         Boolean validadeOk,
         SituacaoAnalise situacaoAnalise,
         String descricaoSituacao,
-        PacienteResponse paciente,
-        MedicoResponse medico,
-        List<ReceitaItemResponse> itens,
-        List<FraudeResponse> fraudes
+        PacienteResponseDto paciente,
+        MedicoResponseDto medico,
+        List<ReceitaItemResponseDto> itens,
+        List<FraudeResponseDto> fraudes
 ) {}

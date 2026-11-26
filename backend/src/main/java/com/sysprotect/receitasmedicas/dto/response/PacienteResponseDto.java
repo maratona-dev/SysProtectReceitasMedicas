@@ -3,7 +3,7 @@ package com.sysprotect.receitasmedicas.dto.response;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record PacienteResponse(
+public record PacienteResponseDto(
         UUID id,
         String nome,
         String cpf,
