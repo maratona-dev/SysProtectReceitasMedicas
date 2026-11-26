@@ -18,7 +18,7 @@ class JwtTokenProviderTest {
     @BeforeEach
     void setUp() {
         jwtProperties = mock(JwtProperties.class);
-        when(jwtProperties.getSecret()).thenReturn("test-secret-key-for-testing-purposes-only-123");
+        when(jwtProperties.getSecret()).thenReturn("test-secret-key-for-testing-purposes-only-1234567890");
         when(jwtProperties.getExpirationMs()).thenReturn(86400000L);
         when(jwtProperties.getRefreshExpirationMs()).thenReturn(2592000000L);
         jwtTokenProvider = new JwtTokenProvider(jwtProperties);
@@ -108,7 +108,7 @@ class JwtTokenProviderTest {
     void shouldReturnFalseForTokenWithDifferentSecret() {
         // Given
         JwtProperties differentProps = mock(JwtProperties.class);
-        when(differentProps.getSecret()).thenReturn("different-secret-key");
+        when(differentProps.getSecret()).thenReturn("different-secret-key-for-testing-purposes-1234567890");
         when(differentProps.getExpirationMs()).thenReturn(86400000L);
         JwtTokenProvider differentProvider = new JwtTokenProvider(differentProps);
         String token = differentProvider.createToken("testuser", "USER");

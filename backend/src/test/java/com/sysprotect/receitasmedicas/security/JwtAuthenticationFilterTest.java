@@ -192,6 +192,6 @@ class JwtAuthenticationFilterTest {
         // Then
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isNotNull();
         assertThat(SecurityContextHolder.getContext().getAuthentication().getDetails())
-            .isInstanceOf(WebAuthenticationDetailsSource.class);
+            .isInstanceOf(org.springframework.security.web.authentication.WebAuthenticationDetails.class);
     }
 }

@@ -54,16 +54,23 @@ public class AuthServiceImpl implements AuthService {
             );
 
             String username = authentication.getName();
-            String token = jwtTokenProvider.createToken(username, getPrimaryRole(username));
             String refreshToken = jwtTokenProvider.createRefreshToken(username);
 
             AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário não encontrado"));
 
+            String primaryRole = user.getRoles().stream()
+                .filter(RoleModel::isEnabled)
+                .findFirst()
+                .map(RoleModel::getName)
+                .orElse("USER");
+
             List<String> roles = user.getRoles().stream()
                 .filter(RoleModel::isEnabled)
                 .map(RoleModel::getName)
                 .toList();
+
+            String token = jwtTokenProvider.createToken(username, primaryRole);
 
             return new AuthResponse(
                 token,
@@ -87,7 +94,13 @@ public class AuthServiceImpl implements AuthService {
         AppUser user = appUserRepository.findByUsername(username)
             .orElseThrow(() -> new InvalidCredentialsException("Usuário não encontrado"));
 
-        String newToken = jwtTokenProvider.createToken(username, getPrimaryRole(username));
+        String primaryRole = user.getRoles().stream()
+            .filter(RoleModel::isEnabled)
+            .findFirst()
+            .map(RoleModel::getName)
+            .orElse("USER");
+
+        String newToken = jwtTokenProvider.createToken(username, primaryRole);
 
         List<String> roles = user.getRoles().stream()
             .filter(RoleModel::isEnabled)
@@ -106,15 +119,5 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String token) {
         // Stateless JWT - logout handled client-side by removing token
-    }
-
-    private String getPrimaryRole(String username) {
-        return appUserRepository.findByUsername(username)
-            .map(user -> user.getRoles().stream()
-                .filter(RoleModel::isEnabled)
-                .findFirst()
-                .map(RoleModel::getName)
-                .orElse("USER"))
-            .orElse("USER");
     }
 }

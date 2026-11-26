@@ -176,9 +176,11 @@ class AuthServiceImplTest {
     @DisplayName("Should return roles list containing USER for test user")
     void shouldReturnRolesContainingUser() {
         // Given
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getName()).thenReturn("testuser");
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+            .thenReturn(authentication);
         when(appUserRepository.findByUsername("testuser")).thenReturn(Optional.of(testUser));
-        when(jwtTokenProvider.validateToken(anyString())).thenReturn(true);
-        when(jwtTokenProvider.getUsername(anyString())).thenReturn("testuser");
         when(jwtTokenProvider.createToken(eq("testuser"), anyString())).thenReturn("token");
 
         // When
