@@ -1,7 +1,11 @@
 package com.sysprotect.receitasmedicas.security;
 
-import java.io.IOException;
-
+import com.sysprotect.receitasmedicas.repository.AppUserRepository;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,118 +13,84 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.sysprotect.receitasmedicas.service.CustomUserDetailsService;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final CustomUserDetailsService userDetailsService;
+    private final AppUserRepository appUserRepository;
 
-    public JwtAuthenticationFilter(
-            JwtTokenProvider jwtTokenProvider,
-            CustomUserDetailsService userDetailsService) {
-
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider,
+                                   AppUserRepository appUserRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userDetailsService = userDetailsService;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain)
-            throws ServletException, IOException {
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
-        System.out.println("\n================ JWT FILTER ================");
-        System.out.println("URI: " + request.getRequestURI());
-        System.out.println("METHOD: " + request.getMethod());
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String username;
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            System.out.println("OPTIONS request -> bypass filter");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = jwtTokenProvider.resolveToken(request);
+        jwt = authHeader.substring(7);
 
-        System.out.println("TOKEN PRESENT: " + (token != null));
-
-        if (token != null) {
-            System.out.println("TOKEN (partial): " +
-                    token.substring(0, Math.min(20, token.length())) + "...");
+        if (!jwtTokenProvider.validateToken(jwt)) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        try {
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+        username = jwtTokenProvider.getUsername(jwt);
 
-                System.out.println("TOKEN VALID: true");
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            var userOptional = appUserRepository.findByUsername(username);
 
-                String username = jwtTokenProvider.getUsername(token);
-                System.out.println("USERNAME FROM TOKEN: " + username);
+            if (userOptional.isPresent()) {
+                var user = userOptional.get();
 
-                UserDetails userDetails =
-                        userDetailsService.loadUserByUsername(username);
+                List<String> roles = user.getRoles().stream()
+                    .filter(role -> role.isEnabled())
+                    .map(role -> role.getName())
+                    .collect(Collectors.toList());
 
-                System.out.println("USER LOADED: " + userDetails.getUsername());
+                UserDetails userDetails = org.springframework.security.core.userdetails.User
+                    .builder()
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .disabled(!user.isEnabled())
+                    .accountExpired(false)
+                    .accountLocked(false)
+                    .credentialsExpired(false)
+                    .authorities(roles.stream()
+                        .map(role -> new org.springframework.security.core.authority.SimpleGrantedAuthority(role))
+                        .collect(Collectors.toSet())
+                    )
+                    .build();
 
-                System.out.println("AUTHORITIES:");
-                userDetails.getAuthorities()
-                        .forEach(a -> System.out.println(" - " + a.getAuthority()));
-
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
-
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-
-                System.out.println("AUTH SET IN SECURITY CONTEXT");
-            } else {
-                System.out.println("TOKEN INVALID OR NULL");
+                if (jwtTokenProvider.validateToken(jwt)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
-
-        } catch (Exception e) {
-            System.out.println("ERROR IN JWT FILTER: " + e.getMessage());
-            e.printStackTrace();
         }
-
-        System.out.println("CURRENT AUTH: " +
-                SecurityContextHolder.getContext().getAuthentication());
-
-        System.out.println("===========================================\n");
 
         filterChain.doFilter(request, response);
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-
-        String path = request.getRequestURI();
-
-        boolean skip =
-                path.startsWith("/api/v1/auth/") ||
-                path.startsWith("/swagger-ui") ||
-                path.startsWith("/v3/api-docs") ||
-                path.startsWith("/h2-console");
-
-        if (skip) {
-            System.out.println("SKIP FILTER FOR: " + path);
-        }
-
-        return skip;
     }
 }

@@ -1,12 +1,16 @@
 package com.sysprotect.receitasmedicas.repository;
 
+import com.sysprotect.receitasmedicas.model.RoleModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.sysprotect.receitasmedicas.model.RoleModel;
-
+@Repository
 public interface RoleRepository extends JpaRepository<RoleModel, UUID> {
-    Optional<RoleModel> findByName(String name);
+
+    Optional<RoleModel> findByRoleName(String roleName);
+
+    boolean existsByRoleName(String roleName);
 }
