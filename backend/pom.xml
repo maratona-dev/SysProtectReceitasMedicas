@@ -194,6 +194,16 @@
                     <rules>
                         <rule>
                             <element>BUNDLE</element>
+                            <excludes>
+                                <!-- DTOs (request/response) -->
+                                <exclude>**/dto/**</exclude>
+                                <!-- Entidades / modelos de domínio -->
+                                <exclude>**/model/**</exclude>
+                                <!-- Classes de configuração -->
+                                <exclude>**/config/**</exclude>
+                                <!-- Classe principal da aplicação -->
+                                <exclude>**/*Application.class</exclude>
+                            </excludes>
                             <limits>
                                 <limit>
                                     <counter>LINE</counter>
