@@ -109,7 +109,7 @@ class JwtTokenProviderTest {
         // Given
         JwtProperties differentProps = mock(JwtProperties.class);
         when(differentProps.getSecret()).thenReturn("different-secret-key");
-        when(differentProperties.getExpirationMs()).thenReturn(86400000L);
+        when(differentProps.getExpirationMs()).thenReturn(86400000L);
         JwtTokenProvider differentProvider = new JwtTokenProvider(differentProps);
         String token = differentProvider.createToken("testuser", "USER");
 
