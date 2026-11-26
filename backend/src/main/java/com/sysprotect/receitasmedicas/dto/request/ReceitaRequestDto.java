@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record ReceitaRequest(
+public record ReceitaRequestDto(
         @NotBlank(message = "O código da receita é obrigatório")
         @Size(max = 64, message = "O código da receita deve ter no máximo 64 caracteres")
         String codigoReceita,
@@ -32,5 +32,5 @@ public record ReceitaRequest(
 
         @NotEmpty(message = "A receita deve conter pelo menos um medicamento")
         @Valid
-        List<ReceitaItemRequest> itens
+        List<ReceitaItemRequestDto> itens
 ) {}

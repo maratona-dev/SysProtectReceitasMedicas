@@ -2,7 +2,7 @@ package com.sysprotect.receitasmedicas.dto.request;
 
 import jakarta.validation.constraints.*;
 
-public record MedicoRequest(
+public record MedicoRequestDto(
         @NotBlank(message = "O nome do médico é obrigatório")
         @Size(max = 150, message = "O nome deve ter no máximo 150 caracteres")
         String nome,

@@ -3,7 +3,7 @@ package com.sysprotect.receitasmedicas.dto.response;
 import com.sysprotect.receitasmedicas.enums.CategoriaFraude;
 import java.util.UUID;
 
-public record CondicaoTesteResponse(
+public record CondicaoTesteResponseDto(
         UUID id,
         UUID tipoFraudeId,
         CategoriaFraude tipoFraudeCodigo,

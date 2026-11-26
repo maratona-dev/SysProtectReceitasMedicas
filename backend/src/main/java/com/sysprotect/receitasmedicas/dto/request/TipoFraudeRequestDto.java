@@ -3,7 +3,7 @@ package com.sysprotect.receitasmedicas.dto.request;
 import com.sysprotect.receitasmedicas.enums.CategoriaFraude;
 import jakarta.validation.constraints.*;
 
-public record TipoFraudeRequest(
+public record TipoFraudeRequestDto(
         @NotNull(message = "A categoria da fraude é obrigatória")
         CategoriaFraude codigo,
 

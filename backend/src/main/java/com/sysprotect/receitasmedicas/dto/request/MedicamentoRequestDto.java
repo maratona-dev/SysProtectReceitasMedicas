@@ -3,7 +3,7 @@ package com.sysprotect.receitasmedicas.dto.request;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
-public record MedicamentoRequest(
+public record MedicamentoRequestDto(
         @NotBlank(message = "O nome do medicamento é obrigatório")
         @Size(max = 150, message = "O nome deve ter no máximo 150 caracteres")
         String nome,
