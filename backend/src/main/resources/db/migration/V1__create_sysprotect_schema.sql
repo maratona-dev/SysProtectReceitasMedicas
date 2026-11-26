@@ -130,9 +130,9 @@ CREATE TABLE app_user (
 CREATE TABLE user_role (
     user_id UUID NOT NULL,
     role_id UUID NOT NULL,
-    CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
-    CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+    CONSTRAINT pk_app_user_role PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_app_user_role_user FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
+    CONSTRAINT fk_app_user_role_role FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_user_role_role_id ON user_role (role_id);
