@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sysprotect.receitasmedicas.model.AppUser;
-import com.sysprotect.receitasmedicas.repository.UserRepository;
+import com.sysprotect.receitasmedicas.repository.AppUserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final AppUserRepository appUserRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomUserDetailsService(AppUserRepository userRepository) {
+        this.appUserRepository = userRepository;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        AppUser user = userRepository.findByUsername(username)
+        AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "Usuário não encontrado: " + username));
