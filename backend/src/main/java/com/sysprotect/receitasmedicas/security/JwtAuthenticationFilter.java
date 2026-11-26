@@ -37,24 +37,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authHeader.substring(7);
+        final String jwt = authHeader.substring(7);
 
         if (!jwtTokenProvider.validateToken(jwt)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        username = jwtTokenProvider.getUsername(jwt);
+        // Se já está autenticado, não re-autenticar
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        final String username = jwtTokenProvider.getUsername(jwt);
+
+        if (username != null) {
             var userOptional = appUserRepository.findByUsername(username);
 
             if (userOptional.isPresent()) {

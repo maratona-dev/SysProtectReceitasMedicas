@@ -57,7 +57,7 @@ public class AuthController {
         @ApiResponse(responseCode = "401", description = "Token inválido ou expirado")
     })
     @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refresh(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<AuthResponse> refresh(@RequestHeader(value = "Authorization", required = false) String authorization) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             return ResponseEntity.status(401).build();
         }
@@ -71,7 +71,7 @@ public class AuthController {
         @ApiResponse(responseCode = "200", description = "Logout realizado")
     })
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false) String authorization) {
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String token = authorization.substring(7);
             authService.logout(token);

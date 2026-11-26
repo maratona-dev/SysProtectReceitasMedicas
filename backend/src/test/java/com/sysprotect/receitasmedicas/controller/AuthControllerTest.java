@@ -49,7 +49,7 @@ class AuthControllerTest {
     @DisplayName("Should return 200 and auth response on successful login")
     void shouldReturn200OnSuccessfulLogin() throws Exception {
         // Given
-        LoginRequest loginRequest = new LoginRequest("user", "pass");
+        LoginRequest loginRequest = new LoginRequest("user", "password123");
         AuthResponse response = new AuthResponse(
             "token-123",
             UUID.randomUUID(),
@@ -79,6 +79,7 @@ class AuthControllerTest {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("newuser");
         registerRequest.setPassword("password123");
+        registerRequest.setEmail("newuser@test.com");
         registerRequest.setFullName("New User");
 
         AuthResponse response = new AuthResponse(
