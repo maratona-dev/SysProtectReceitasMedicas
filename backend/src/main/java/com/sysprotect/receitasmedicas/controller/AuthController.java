@@ -4,6 +4,7 @@ import com.sysprotect.receitasmedicas.dto.request.LoginRequest;
 import com.sysprotect.receitasmedicas.dto.request.RegisterRequest;
 import com.sysprotect.receitasmedicas.dto.response.AuthResponse;
 import com.sysprotect.receitasmedicas.service.auth.AuthService;
+import com.sysprotect.receitasmedicas.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, UserService userService) {
         this.authService = authService;
+        this.userService = userService;
     }
 
     @Operation(summary = "Login do usuário", description = "Autentica usuário e retorna token JWT")
@@ -43,7 +46,8 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        // O cadastro retorna um token já autenticando o usuário
+        // Cadastra o usuário no banco primeiro, depois autentica para retornar o token
+        userService.create(registerRequest);
         AuthResponse response = authService.login(new LoginRequest(
             registerRequest.getUsername(),
             registerRequest.getPassword()

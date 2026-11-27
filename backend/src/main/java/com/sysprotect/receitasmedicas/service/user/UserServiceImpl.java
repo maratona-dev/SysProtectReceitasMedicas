@@ -63,8 +63,8 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("Username já existe: " + request.getUsername());
         }
 
-        RoleModel userRole = roleRepository.findByName("USER")
-            .orElseThrow(() -> new UserNotFoundException("Role USER não encontrada"));
+        RoleModel userRole = roleRepository.findByName("ROLE_USER")
+            .orElseThrow(() -> new UserNotFoundException("Role ROLE_USER não encontrada"));
 
         Set<RoleModel> roles = new HashSet<>();
         roles.add(userRole);
