@@ -157,7 +157,7 @@ class UserServiceImplTest {
     void shouldCreateUserSuccessfully() {
         // Given
         when(appUserRepository.existsByUsername("newuser")).thenReturn(false);
-        when(roleRepository.findByRoleName("USER")).thenReturn(Optional.of(userRole));
+        when(roleRepository.findByName("USER")).thenReturn(Optional.of(userRole));
         when(passwordEncoder.encode("password123")).thenReturn("encodedPassword");
         AppUser savedUser = new AppUser("newuser", "encodedPassword", "New User");
         savedUser.setId(UUID.randomUUID());
@@ -197,7 +197,7 @@ class UserServiceImplTest {
     void shouldThrowExceptionWhenRoleUserNotFound() {
         // Given
         when(appUserRepository.existsByUsername("newuser")).thenReturn(false);
-        when(roleRepository.findByRoleName("USER")).thenReturn(Optional.empty());
+        when(roleRepository.findByName("USER")).thenReturn(Optional.empty());
 
         // When & Then
         assertThatThrownBy(() -> userService.create(registerRequest))
