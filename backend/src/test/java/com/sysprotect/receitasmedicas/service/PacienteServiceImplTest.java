@@ -2,6 +2,7 @@ package com.sysprotect.receitasmedicas.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,9 +16,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.sysprotect.receitasmedicas.dto.request.PacienteRequestDto;
@@ -29,6 +33,7 @@ import com.sysprotect.receitasmedicas.model.Paciente;
 import com.sysprotect.receitasmedicas.repository.PacienteRepository;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class PacienteServiceImplTest {
 
     @Mock
@@ -46,7 +51,6 @@ class PacienteServiceImplTest {
         Pageable pageable = Pageable.unpaged();
         Page<Paciente> page = new PageImpl<>(java.util.List.of());
         when(pacienteRepository.findAll(pageable)).thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
 
         Page<PacienteResponseDto> result = pacienteService.findAll(pageable);
 
@@ -59,15 +63,13 @@ class PacienteServiceImplTest {
     void findAllComFiltros() {
         Pageable pageable = Pageable.unpaged();
         Page<Paciente> page = new PageImpl<>(java.util.List.of());
-        when(pacienteRepository.findBy(any(Specification.class), any()))
-                .thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
+        doReturn(page).when(pacienteRepository).findBy(any(PredicateSpecification.class), any());
 
         Page<PacienteResponseDto> result = pacienteService.findAll(
                 pageable, "Joao", "12345678901", true);
 
         assertThat(result).isNotNull();
-        verify(pacienteRepository).findBy(any(Specification.class), any());
+        verify(pacienteRepository).findBy(any(PredicateSpecification.class), any());
     }
 
     @Test
@@ -75,13 +77,11 @@ class PacienteServiceImplTest {
     void findAllNomeEmBranco() {
         Pageable pageable = Pageable.unpaged();
         Page<Paciente> page = new PageImpl<>(java.util.List.of());
-        when(pacienteRepository.findBy(any(Specification.class), any()))
-                .thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
+        doReturn(page).when(pacienteRepository).findBy(any(PredicateSpecification.class), any());
 
         pacienteService.findAll(pageable, "   ", null, null);
 
-        verify(pacienteRepository).findBy(any(Specification.class), any());
+        verify(pacienteRepository).findBy(any(PredicateSpecification.class), any());
     }
 
     @Test

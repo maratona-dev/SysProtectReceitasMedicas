@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.sysprotect.receitasmedicas.model.AppUser;
 import com.sysprotect.receitasmedicas.model.RoleModel;
 import com.sysprotect.receitasmedicas.repository.AppUserRepository;
+import com.sysprotect.receitasmedicas.service.CustomUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 class CustomUserDetailsServiceTest {

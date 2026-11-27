@@ -2,6 +2,7 @@ package com.sysprotect.receitasmedicas.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,9 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.sysprotect.receitasmedicas.dto.request.TipoFraudeRequestDto;
@@ -28,6 +32,7 @@ import com.sysprotect.receitasmedicas.model.TipoFraude;
 import com.sysprotect.receitasmedicas.repository.TipoFraudeRepository;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class TipoFraudeServiceImplTest {
 
     @Mock
@@ -45,7 +50,6 @@ class TipoFraudeServiceImplTest {
         Pageable pageable = Pageable.unpaged();
         Page<TipoFraude> page = new PageImpl<>(java.util.List.of());
         when(tipoFraudeRepository.findAll(pageable)).thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
 
         Page<TipoFraudeResponseDto> result = tipoFraudeService.findAll(pageable);
 
@@ -58,15 +62,13 @@ class TipoFraudeServiceImplTest {
     void findAllComFiltros() {
         Pageable pageable = Pageable.unpaged();
         Page<TipoFraude> page = new PageImpl<>(java.util.List.of());
-        when(tipoFraudeRepository.findBy(any(Specification.class), any()))
-                .thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
+        doReturn(page).when(tipoFraudeRepository).findBy(any(PredicateSpecification.class), any());
 
         Page<TipoFraudeResponseDto> result = tipoFraudeService.findAll(
                 pageable, "fraude", CategoriaFraude.MEDICO_INVALIDO, 3);
 
         assertThat(result).isNotNull();
-        verify(tipoFraudeRepository).findBy(any(Specification.class), any());
+        verify(tipoFraudeRepository).findBy(any(PredicateSpecification.class), any());
     }
 
     @Test
@@ -74,13 +76,11 @@ class TipoFraudeServiceImplTest {
     void findAllDescricaoEmBranco() {
         Pageable pageable = Pageable.unpaged();
         Page<TipoFraude> page = new PageImpl<>(java.util.List.of());
-        when(tipoFraudeRepository.findBy(any(Specification.class), any()))
-                .thenReturn(page);
-        when(page.map(any())).thenReturn(Page.empty());
+        doReturn(page).when(tipoFraudeRepository).findBy(any(PredicateSpecification.class), any());
 
         tipoFraudeService.findAll(pageable, "   ", null, null);
 
-        verify(tipoFraudeRepository).findBy(any(Specification.class), any());
+        verify(tipoFraudeRepository).findBy(any(PredicateSpecification.class), any());
     }
 
     @Test

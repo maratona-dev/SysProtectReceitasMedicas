@@ -3,6 +3,7 @@ package com.sysprotect.receitasmedicas.exception;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
@@ -16,11 +17,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.core.MethodParameter;
 
 import com.sysprotect.receitasmedicas.dto.response.ErroResponseDto;
 
@@ -68,7 +71,9 @@ class GlobalExceptionHandlerTest {
     @Test
     @DisplayName("tratarErroJsonInvalido retorna 400")
     void tratarErroJsonInvalido() {
-        HttpMessageNotReadableException ex = new HttpMessageNotReadableException("JSON invalido");
+        HttpInputMessage inputMessage = mock(HttpInputMessage.class);
+        HttpMessageNotReadableException ex = new HttpMessageNotReadableException(
+                "JSON invalido", inputMessage);
         when(messageSource.getMessage(eq("error.json.invalid"), any(), any(Locale.class)))
                 .thenReturn("JSON invalido");
 
@@ -82,9 +87,11 @@ class GlobalExceptionHandlerTest {
 
     @Test
     @DisplayName("tratarErroTipoParametro retorna 400")
-    void tratarErroTipoParametro() {
+    void tratarErroTipoParametro() throws Exception {
+        MethodParameter parameter = new MethodParameter(
+                getClass().getDeclaredMethod("dummyMethod", UUID.class), -1);
         MethodArgumentTypeMismatchException ex = new MethodArgumentTypeMismatchException(
-                "abc", UUID.class, "id", "Valor invalido", null);
+                "abc", UUID.class, "id", parameter, null);
         when(messageSource.getMessage(eq("error.parameter.invalid"), any(), any(Locale.class)))
                 .thenReturn("Parametro invalido");
 
@@ -94,6 +101,10 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().status()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @SuppressWarnings("unused")
+    private void dummyMethod(UUID id) {
     }
 
     @Test
