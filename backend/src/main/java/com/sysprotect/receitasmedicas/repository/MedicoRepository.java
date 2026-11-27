@@ -1,20 +1,14 @@
 package com.sysprotect.receitasmedicas.repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.sysprotect.receitasmedicas.model.Medicamento;
+import com.sysprotect.receitasmedicas.model.Medico;
 
-public interface MedicamentoRepository
-        extends JpaRepository<Medicamento, UUID>,
-                JpaSpecificationExecutor<Medicamento> {
+public interface MedicoRepository
+        extends JpaRepository<Medico, UUID>,
+                JpaSpecificationExecutor<Medico> {
 
-    boolean existsByCodigoAnvisa(String codigoAnvisa);
-
-    boolean existsByCodigoAnvisaAndIdNot(String codigoAnvisa, UUID id);
-
-    Optional<Medicamento> findByCodigoAnvisa(String codigoAnvisa);
 }
