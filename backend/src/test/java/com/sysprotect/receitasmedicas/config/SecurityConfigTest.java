@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.sysprotect.receitasmedicas.security.CustomUserDetailsService;
+import com.sysprotect.receitasmedicas.service.CustomUserDetailsService;
 import com.sysprotect.receitasmedicas.security.JwtAuthenticationFilter;
 
 @ExtendWith(MockitoExtension.class)
