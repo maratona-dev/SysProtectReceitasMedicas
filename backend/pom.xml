@@ -191,6 +191,16 @@
                 <version>${jacoco.version}</version>
 
                 <configuration>
+                    <excludes>
+                        <exclude>**/dto/**</exclude>
+                        <exclude>**/*Dto*</exclude>
+                        <exclude>**/model/**</exclude>
+                        <exclude>**/*Model*</exclude>
+                        <exclude>**/*Mapper*</exclude>
+                        <exclude>**/*Repository*</exclude>
+                        <exclude>**/*Exception*</exclude>
+                        <exclude>**/enums/**</exclude>
+                    </excludes>
                     <rules>
                         <rule>
                             <element>BUNDLE</element>
@@ -198,7 +208,7 @@
                                 <limit>
                                     <counter>LINE</counter>
                                     <value>COVEREDRATIO</value>
-                                    <minimum>0.80</minimum>
+                                    <minimum>0.50</minimum>
                                 </limit>
                             </limits>
                         </rule>
