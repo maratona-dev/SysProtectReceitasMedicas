@@ -176,6 +176,17 @@ public class Receita {
         this.fraudes = fraudes;
     }
 
+    @Column(name = "situacao_analise", nullable = false)
+    private Integer situacaoAnalise = 1;
+
+    public Integer getSituacaoAnalise() {
+        return situacaoAnalise;
+    }
+
+    public void setSituacaoAnalise(Integer situacaoAnalise) {
+        this.situacaoAnalise = situacaoAnalise;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

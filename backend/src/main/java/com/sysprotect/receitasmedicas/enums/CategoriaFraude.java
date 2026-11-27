@@ -11,7 +11,8 @@ public enum CategoriaFraude {
     DOSAGEM_INVALIDA(7, "Dosagem Inválida"),
     RECEITA_VENCIDA(8, "Receita Vencida"),
     ASSINATURA_INVALIDA(9, "Assinatura Inválida"),
-    RECEITA_FALSA(10, "Receita Falsa");
+    RECEITA_FALSA(10, "Receita Falsa"),
+    TALAO_SUSPENSO(11,"Talão Suspenso");
 
     private final Integer codigo;
     private final String nome;
