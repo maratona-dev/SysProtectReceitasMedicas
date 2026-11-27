@@ -6,15 +6,15 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.sysprotect.receitasmedicas.model.Medico;
+import com.sysprotect.receitasmedicas.model.Medicamento;
 
-public interface MedicoRepository
-        extends JpaRepository<Medico, UUID>,
-                JpaSpecificationExecutor<Medico> {
+public interface MedicamentoRepository
+        extends JpaRepository<Medicamento, UUID>,
+                JpaSpecificationExecutor<Medicamento> {
 
-    boolean existsByCrm(String crm);
+    boolean existsByCodigoAnvisa(String codigoAnvisa);
 
-    boolean existsByCrmAndIdNot(String crm, UUID id);
+    boolean existsByCodigoAnvisaAndIdNot(String codigoAnvisa, UUID id);
 
-    Optional<Medico> findByCrm(String crm);
+    Optional<Medicamento> findByCodigoAnvisa(String codigoAnvisa);
 }

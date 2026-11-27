@@ -6,13 +6,13 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.sysprotect.receitasmedicas.model.Fraude;
+import com.sysprotect.receitasmedicas.model.CondicaoTeste;
 
-public interface FraudeRepository
-        extends JpaRepository<Fraude, UUID>,
-                JpaSpecificationExecutor<Fraude> {
+public interface CondicaoTesteRepository
+        extends JpaRepository<CondicaoTeste, UUID>,
+                JpaSpecificationExecutor<CondicaoTeste> {
 
-    List<Fraude> findByReceitaId(UUID receitaId);
+    List<CondicaoTeste> findByAtivaTrue();
 
-    boolean existsByReceitaIdAndResolvidaFalse(UUID receitaId);
+    List<CondicaoTeste> findByTipoFraudeId(UUID tipoFraudeId);
 }
